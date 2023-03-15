@@ -7,7 +7,3 @@ dfz
 ghf
 dgh
 ea
-fh
-eaf
-h
-est
