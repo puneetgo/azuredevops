@@ -8,6 +8,4 @@ ghf
 dgh
 ea
 
-function {
-    sdfdbsfjhsdjf
-}
+library
