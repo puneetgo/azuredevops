@@ -7,3 +7,7 @@ dfz
 ghf
 dgh
 ea
+
+function {
+    sdfdbsfjhsdjf
+}
