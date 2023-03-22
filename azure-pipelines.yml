@@ -21,6 +21,7 @@ steps:
 
 - script: |
     npm test || true
+    extra-test || true
   displayName: 'Run the unit test'
 
 - script: |
