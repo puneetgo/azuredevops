@@ -1,0 +1,58 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: |
+    apt-get update
+    apt-get install -y npm
+  displayName: 'Install nnpm with apt'
+
+- script: |
+    npm audit
+  displayName: 'check for vulnaribilities'
+
+- script: |
+    npm test || true
+  displayName: 'Run the unit test'
+
+- script: |
+    sonar-scanner ./ || true
+  displayName: 'Review the Code'
+
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
+
+- script: |
+    sudo apt-get install wget apt-transport-https gnupg lsb-release
+    wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+    echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+    sudo apt-get update
+    sudo apt-get install trivy
+  displayName: 'Install Trivy'
+
+- script: |
+    trivy config Dockerfile
+  displayName: 'Scan the Dockerfile for Security'
+
+- script: |
+    BASE_IMAGE=`grep FROM Dockerfile | awk '{print $2}'`
+    trivy image $BASE_IMAGE 
+  displayName: 'Scan the Base Image'
+
+- script: |
+    trivy config k8s 
+  displayName: 'Scan the Kubernetes Manifests'
+
+- script: | 
+    docker build -t basilvarghese/myapp-frontend:1.0.1 .
+  displayName: 'Build the container image' 
