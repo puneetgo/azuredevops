@@ -11,9 +11,9 @@ pool:
 
 steps:
 - script: |
-    apt-get update
-    apt-get install -y npm
-  displayName: 'Install nnpm with apt'
+    sudo apt-get update
+    sudo apt-get install -y npm
+  displayName: 'Install npm with apt'
 
 - script: |
     npm audit
@@ -55,5 +55,5 @@ steps:
   displayName: 'Scan the Kubernetes Manifests'
 
 - script: | 
-    docker build -t basilvarghese/myapp-frontend:1.0.1 .
+    sudo docker build -t basilvarghese/myapp-frontend:1.0.1 .
   displayName: 'Build the container image' 
