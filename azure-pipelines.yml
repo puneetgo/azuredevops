@@ -57,3 +57,8 @@ steps:
 - script: | 
     sudo docker build -t basilvarghese/myapp-frontend:1.0.1 .
   displayName: 'Build the container image' 
+
+- script: | 
+    echo $(DOCKER_HUB_PASSWORD) | sudo docker login --username $(DOCKER_HUB_USERNAME) --password-stdin 
+    sudo docker push basilvarghese/myapp-frontend:1.0.1
+  displayName: 'Login to registry and Push the image'
