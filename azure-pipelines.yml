@@ -62,3 +62,11 @@ steps:
     echo $(DOCKER_HUB_PASSWORD) | sudo docker login --username $(DOCKER_HUB_USERNAME) --password-stdin 
     sudo docker push basilvarghese/myapp-frontend:1.0.1
   displayName: 'Login to registry and Push the image'
+
+- task: KubernetesManifest@0
+  displayName: Deploy to GKE
+  inputs:
+    action: deploy
+    manifests: |
+      k8s/simple/frontend-deployment.yaml
+      k8s/simple/service-frontend-lb.yaml
