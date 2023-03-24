@@ -54,14 +54,21 @@ steps:
     trivy config k8s 
   displayName: 'Scan the Kubernetes Manifests'
 
-- script: | 
-    sudo docker build -t basilvarghese/myapp-frontend:1.0.1 .
-  displayName: 'Build the container image' 
+#- script: | 
+#    sudo docker build -t basilvarghese/myapp-frontend:1.0.1 .
+#  displayName: 'Build the container image' 
 
-- script: | 
-    echo $(DOCKER_HUB_PASSWORD) | sudo docker login --username $(DOCKER_HUB_USERNAME) --password-stdin 
-    sudo docker push basilvarghese/myapp-frontend:1.0.1
-  displayName: 'Login to registry and Push the image'
+#- script: | 
+#    echo $(DOCKER_HUB_PASSWORD) | sudo docker login --username $(DOCKER_HUB_USERNAME) --password-stdin 
+#    sudo docker push basilvarghese/myapp-frontend:1.0.1
+#  displayName: 'Login to registry and Push the image'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: docker-hub
+    command: 'buildAndPush' 
+    Dockerfile: 'Dockerfile'
+    tags: basilvarghese/myapp-frontend:1.0.1
 
 - task: KubernetesManifest@0
   displayName: Deploy to GKE
