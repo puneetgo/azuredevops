@@ -48,8 +48,14 @@ steps:
 - script: |
     trivy config k8s
   displayName: 'scan k8s'
+
 - script: |
-    docker build -t puneetgo/myapp .
+    docker build -t puneetgo/myapp:v1 .
   displayName: 'building image'
+
+- script: |
+    echo $(Docker_Hub_password) | sudo docker login --username $(Docker_Hub_username) --password-stdin
+    sudo docker push puneetgo/myapp:v1
+  displayName: 'docker login'
   
 
