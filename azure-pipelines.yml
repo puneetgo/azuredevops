@@ -53,3 +53,11 @@ steps:
   displayName: 'building image'
   
 
+- task: KubernetesManifest@0
+  displayName: Deploy to GKE
+  inputs:
+    kubernetesServiceConnection: gke_development
+    action: deploy
+    manifests: |
+      k8s/simple/frontend-deployment.yaml
+      k8s/simple/service-frontend-lb.yaml
