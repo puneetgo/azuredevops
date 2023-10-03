@@ -1,0 +1,59 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+
+- script: |
+    sudo apt-get update
+    sudo apt-get install npm -y
+  displayName: 'npm install npm'
+  
+- script: |
+    sudo npm audit
+    sudo npm run build
+  displayName: 'npm audit'  
+
+- script: |
+    npm test || true
+    
+  displayName: 'npm test'
+
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
+
+- script: |
+    sonar-scanner || true
+    npm run build
+  displayName: 'review code'
+
+- script: |
+     sudo apt-get install wget apt-transport-https gnupg lsb-release
+     wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+     echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+     sudo apt-get update
+     sudo apt-get install trivy
+  displayName: 'install trivy'
+
+- script: |
+    trivy config Dockerfile
+  displayName: 'scan dockerfile'
+
+- script: |
+    trivy config k8s
+  displayName: 'scan k8s'
+
+- script: |
+    docker build -t puneetgo/myapp .
+  displayName: 'building image'
+  
+
