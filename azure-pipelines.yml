@@ -19,8 +19,8 @@ steps:
 - script: |
     sudo npm audit
     sudo npm run build
-  displayName: 'npm audit'  
-
+  displayName: 'npm audit one'  
+  
 - script: |
     npm test || true
     
