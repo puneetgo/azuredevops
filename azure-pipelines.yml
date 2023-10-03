@@ -48,7 +48,6 @@ steps:
 - script: |
     trivy config k8s
   displayName: 'scan k8s'
-
 - script: |
     docker build -t puneetgo/myapp .
   displayName: 'building image'
