@@ -17,7 +17,7 @@ steps:
   displayName: 'npm install npm'
   
 - script: |
-    sudo npm nstall
+    sudo npm install
     sudo npm run build
   displayName: 'npm audit one'  
   
