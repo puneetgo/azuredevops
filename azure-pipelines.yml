@@ -62,9 +62,10 @@ steps:
   displayName: Build and push
   inputs:
    containerRegistry: docker_registry
+   repository: puneetgo/myapp
    command: 'buildAndPush'
    Dockerfile: 'Dockerfile'
-   tags: puneetgo/myapp:v1
+   tags: v1
 
 - task: KubernetesManifest@0
   displayName: Deploy to GKE
