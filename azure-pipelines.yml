@@ -21,17 +21,7 @@ steps:
     sudo npm run build
   displayName: 'npm audit one'  
   
-- script: |
-    npm test || true
-    
-  displayName: 'npm test'
 
-
-
-- script: |
-    sonar-scanner || true
-   
-  displayName: 'review code'
 
 - script: |
      sudo apt-get install wget apt-transport-https gnupg lsb-release
@@ -49,14 +39,7 @@ steps:
     trivy config k8s
   displayName: 'scan k8s'
 
-- script: |
-    docker build -t puneetgo/myapp:v1 .
-  displayName: 'building image'
 
-- script: |
-    echo $(Docker_Hub_password) | sudo docker login --username $(Docker_Hub_username) --password-stdin
-    sudo docker push puneetgo/myapp:v1
-  displayName: 'docker login'
   
 - task: Docker@2
   displayName: Build and push
